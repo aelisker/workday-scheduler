@@ -23,13 +23,15 @@ $(".save-btn").on("click", function() {
 });
 
 var saveEvents = function(tempArray) {
-    //if item exists in same time slot during same day, clear localstorage and splice into array
+    //NEED TO ADD DATE CHECKER TOO
     if (calendarEvents && calendarEvents.length) {
         var forLoopResult = false;
         for(var i = 0; i < calendarEvents.length; i++) {
-            if(calendarEvents[i].time === tempArray[0].time) {
+            if(calendarEvents[i].time === tempArray[0].time
+            && calendarEvents[i].date === tempArray[0].date) {
                 calendarEvents.splice(i, 1, tempArray[0]);
                 forLoopResult = true;
+                break;
             }
         }
         if (!forLoopResult) {
