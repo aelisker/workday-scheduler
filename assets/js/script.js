@@ -1,5 +1,5 @@
 var calendarEvents = [];
-var currentDateEl = moment().format('MMMM Do YYYY');
+var currentDateEl = moment().format('dddd, MMMM Do YYYY');
 
 //print current day to page
 function setCurrentTime() {
@@ -8,10 +8,6 @@ function setCurrentTime() {
 
 $(".save-btn").on("click", function() {
     var text = $(this).siblings("textarea").val().trim();
-
-    //had issue where global var currentDateEl not pushing to tempArray. working now but need to uncomment if issue reappears
-    // var currentDateEl = moment().format('MMMM Do YYYY');
-
     var time = $(this).siblings("textarea").attr("id");
 
     //previously used if(text) to ensure empty values weren't stored but events couldn't easily be deleted 
@@ -70,11 +66,11 @@ var loadEvents = function() {
 
 var changeColors = function() {
     for (var i = 9; i <= 17; i++) {
-        if(moment(i, 'HH') < moment()) {
+        if(moment(i, 'HH').format('HH') < moment().format('HH')) {
             $("#" + i).removeClass("bg-light");
             $("#" + i).addClass("bg-secondary");
         }
-        else if (moment(i, 'HH') > moment()) {
+        else if (moment(i, 'HH').format('HH') > moment().format('HH')) {
             $("#" + i).removeClass("bg-light");
             $("#" + i).addClass("bg-success");
         }
@@ -85,7 +81,9 @@ var changeColors = function() {
     }  
 };
 
-setInterval(setCurrentTime, 1000*60*30);
+setInterval(setCurrentTime, 1000*60*15);
+setInterval(changeColors, 1000*60*15);
 
 setCurrentTime();
 loadEvents();
+changeColors();
