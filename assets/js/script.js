@@ -24,12 +24,21 @@ $(".save-btn").on("click", function() {
 
 var saveEvents = function(tempArray) {
     //if item exists in same time slot during same day, clear localstorage and splice into array
-    for(var i = 0; i < calendarEvents.length; i++) {
-        if(calendarEvents[i].time === tempArray[0].time) {
-            calendarEvents.splice(i, 1, tempArray[0]);
+    if (calendarEvents && calendarEvents.length) {
+        var forLoopResult = false;
+        for(var i = 0; i < calendarEvents.length; i++) {
+            if(calendarEvents[i].time === tempArray[0].time) {
+                calendarEvents.splice(i, 1, tempArray[0]);
+                forLoopResult = true;
+            }
+        }
+        if (!forLoopResult) {
+            calendarEvents.push(tempArray[0]);
         }
     }
-
+    else {
+        calendarEvents.push(tempArray[0]);
+    }
     localStorage.setItem("events", JSON.stringify(calendarEvents));
 };
 
