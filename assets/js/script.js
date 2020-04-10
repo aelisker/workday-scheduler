@@ -1,6 +1,10 @@
 var calendarEvents = [];
 var currentDateEl = moment().format('MMMM Do YYYY');
 
+//print current day to page
+function setCurrentTime() {
+    $("#currentDay").html(currentDateEl);
+};
 
 $(".save-btn").on("click", function() {
     var text = $(this).siblings("textarea").val().trim();
@@ -48,11 +52,6 @@ var saveEvents = function(tempArray) {
     localStorage.setItem("events", JSON.stringify(calendarEvents));
 };
 
-//print current day to page
-function setCurrentTime() {
-    $("#currentDay").html(currentDateEl);
-};
-
 var loadEvents = function() {
     calendarEvents = JSON.parse(localStorage.getItem("events"));
   
@@ -67,6 +66,23 @@ var loadEvents = function() {
             $("#" + calendarEvents[i].time).val(calendarEvents[i].text);
         }
     }
+};
+
+var changeColors = function() {
+    for (var i = 9; i <= 17; i++) {
+        if(moment(i, 'HH') < moment()) {
+            $("#" + i).removeClass("bg-light");
+            $("#" + i).addClass("bg-secondary");
+        }
+        else if (moment(i, 'HH') > moment()) {
+            $("#" + i).removeClass("bg-light");
+            $("#" + i).addClass("bg-success");
+        }
+        else {
+            $("#" + i).removeClass("bg-light");
+            $("#" + i).addClass("bg-danger");
+        }
+    }  
 };
 
 setInterval(setCurrentTime, 1000*60*30);
